@@ -1,11 +1,20 @@
 require("dotenv").config();
 const {Client, Events, GatewayIntentBits} = require("discord.js");
-const {TOKEN} = process.env;
+const ComponentHandler = require("./utils/ComponentHandler");
+const interactionCreateEvent = require("./events/interactionCreate.event");
+const clientReadyEvent = require("./events/clientReady.event");
 
+const {DISCORD_BOT_TOKEN:token} = process.env;
+
+// Create a new client instance
 const client = new Client({intents:[GatewayIntentBits.Guilds]});
 
-client.once(Events.ClientReady, (c) => {
-    console.log(`Ready! Logged in as ${c.user.tag}`);
-});
+// Add Components
+const componentHandler = new ComponentHandler(client);
+componentHandler.addCommands();
 
-client.login(TOKEN);
+// Register Events
+client.once(Events.ClientReady, clientReadyEvent);
+client.on(Events.InteractionCreate, interactionCreateEvent);
+
+client.login(token);
