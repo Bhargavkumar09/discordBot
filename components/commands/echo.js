@@ -21,6 +21,7 @@ module.exports = {
 
     async execute(interaction) {
         console.log(interaction.options, "interaction")
+        console.log("first");
         await interaction.reply({content:`${interaction.options.getString("input")} ${interaction.options.getChannel("channel")} ${interaction.options.getBoolean("ephemeral")}`,ephemeral:interaction.options.getBoolean("ephemeral")});
     }
     
